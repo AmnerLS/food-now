@@ -36,6 +36,7 @@ export default {
         </div>
       </template>
       <template #end>
+        <pv-button class="p-button-text text-white" icon="pi pi-heart" ></pv-button>
         <pv-button class="p-button-text text-white" icon="pi pi-shopping-cart" ></pv-button>
       </template>
     </pv-toolbar>

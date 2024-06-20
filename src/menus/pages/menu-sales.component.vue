@@ -1,6 +1,7 @@
 <script>
 import {MenuApiService} from "../services/menu-api.service.js";
 import MenuCard from "../components/menu-card.component.vue";
+import {FoodApiService} from "../services/food-api.service.js";
 
 export default {
   name: "menu-sales",
