@@ -21,10 +21,10 @@ export class MenuApiService{
     }
 
     addComment(id, commentResource){
-        return http.post(`/menus/${id}/comments`, commentResource);
+        return http.put(`/menus/${id}/comments`, commentResource);
     }
 
     addRating(id, ratingResource){
-        return http.post(`/menus/${id}/scores`, ratingResource);
+        return http.put(`/menus/${id}/scores`, ratingResource);
     }
 }
