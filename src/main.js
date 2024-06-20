@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './app.vue'
 import PrimeVue from "primevue/config";
+import store from "./menus/services/users-api.service.js"
 
 // PrimeVue Theme
 import 'primevue/resources/themes/saga-blue/theme.css';
@@ -42,12 +43,9 @@ import FloatLabel from "primevue/floatlabel";
 import Checkbox from "primevue/checkbox";
 import Rating from "primevue/rating";
 import router from "./router/index.js";
-import Panel from "primevue/panel";
-import Carousel from "primevue/carousel";
-import Splitter from "primevue/splitter";
-import SplitterPanel from "primevue/splitterpanel";
 
 createApp(App)
+    .use(store)
     .use(router)
     .use(PrimeVue)
     .use(ToastService)
@@ -75,8 +73,4 @@ createApp(App)
     .component('pv-float-label', FloatLabel)
     .component('pv-checkbox', Checkbox)
     .component('pv-rating', Rating)
-    .component('pv-panel',Panel)
-    .component('pv-carousel',Carousel)
-    .component('pv-splitter',Splitter)
-    .component('pv-splitter-panel',SplitterPanel)
     .mount('#app')

@@ -1,9 +1,10 @@
 import {createRouter, createWebHistory} from "vue-router";
 import MenuSalesComponent from "../menus/pages/menu-sales.component.vue";
 import FoodManagementComponent from "../menus/pages/food-management.component.vue";
-
+import FoodCreateAndEditDialogComponent from "../menus/components/food-create-and-edit-dialog.component.vue";
 import MenuManagementComponent from "../menus/pages/menu-management.component.vue";
-import MenuInformationComponent from "../menus/components/menu-information.component.vue";
+import SignInComponent  from "../public/pages/sign-in.component.vue";
+import SignUpComponent  from "../public/pages/sign-up.component.vue";
 
 
 const router = createRouter({
@@ -12,8 +13,9 @@ const router = createRouter({
         {path: '/menus', name: 'menus', component: MenuSalesComponent, meta: {title: 'Menus'}},
         {path: '/foods', name: 'foods', component: FoodManagementComponent, meta: {title: 'Foods'}},
         {path: '/menumanagement', name: 'menumanagement', component: MenuManagementComponent, meta: {title: 'MenuManagement'}},
-        {path: '/menuinfo/:id', name: 'menuinfo', component: MenuInformationComponent, meta: {title: 'MenuInformation'}},
         { path: "/",        redirect: "/menus"},
+        {path: "/signin", name: "signin", component: SignInComponent, meta: {title: 'Sign In'}},
+        {path: "/signup", name: "signup", component: SignUpComponent, meta: {title: 'Sign Up'}},
     ]
 });
 
