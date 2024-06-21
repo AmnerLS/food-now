@@ -10,23 +10,23 @@ export default {
     const router = useRouter();
 
     const items = computed(() => {
-      if (store.state.institution) {
-        return [
-          {label: 'Home', to: '/foods'},
-          {label: 'About', to: '/menumanagement'},
-          {label: 'Sign Out', action: signOut}
-        ];
-      } else {
-        return [
-          {label: 'Sign In', to: '/signin'},
-          {label: 'Sign Up', to: '/signup'}
-        ];
+      return {
+        itemsInstitution: [
+          { label: 'Menu', to: '/menus' },
+          { label: 'Home', to: '/foods' },
+          { label: 'About', to: '/menumanagement' },
+        ],
+        itemsNonInstitution: [
+          { label: 'Menu', to: '/menus' },
+        ],
       }
     });
 
     function signOut() {
       store.commit('setAuthenticated', false);
       store.commit('setInstitution', false);
+      // Establece 'institution' en el almacenamiento local a 'false'
+      localStorage.setItem('institution', JSON.stringify(false));
       router.push({path: '/signin'});
     }
 
@@ -49,22 +49,16 @@ export default {
       </template>
       <template #center>
         <div class="flex-column">
-          <router-link v-for="item in items" :key="item.label" v-slot="{navigate, href}" :to="item.to" custom>
-            <pv-button v-if="!store.state.isAuthenticated || item.label !== 'Sign In' && item.label !== 'Sign Up'"
-                       :href="href" class="p-button-text text-white" @click="navigate">{{ item.label }}
-            </pv-button>
+          <router-link v-for="item in (store.state.isInstitution ? items.itemsInstitution : items.itemsNonInstitution)" :key="item.label" v-slot="{navigate, href}" :to="item.to" custom>
+            <pv-button :href="href" class="p-button-text text-white" @click="navigate">{{ item.label }}</pv-button>
           </router-link>
-          <!-- Agrega los botones de Home y About aquí -->
-          <pv-button v-if="store.state.isAuthenticated" class="p-button-text text-white" @click="router.push('/foods')">Home</pv-button>
-          <pv-button v-if="store.state.isAuthenticated" class="p-button-text text-white" @click="router.push('/menumanagement')">About</pv-button>
-          <pv-button v-if="store.state.isAuthenticated" class="p-button-text text-white" @click="router.push('/menus')">Menus</pv-button>
-
         </div>
       </template>
       <template #end>
         <pv-button class="p-button-text text-white" icon="pi pi-heart" ></pv-button>
-        <pv-button v-if="store.state.isAuthenticated" class="p-button-text text-white" @click="signOut">Sign Out
-        </pv-button>
+        <pv-button v-if="!store.state.isAuthenticated" class="p-button-text text-white" @click="() => router.push('/signin')">Sign In</pv-button>
+        <pv-button v-if="!store.state.isAuthenticated" class="p-button-text text-white" @click="() => router.push('/signup')">Sign Up</pv-button>
+        <pv-button v-if="store.state.isAuthenticated" class="p-button-text text-white" @click="signOut">Sign Out</pv-button>
         <pv-button v-else class="p-button-text text-white" icon="pi pi-shopping-cart"></pv-button>
       </template>
     </pv-toolbar>

@@ -39,6 +39,8 @@ export default {
       axios.post('http://localhost:3000/signup', userData)
           .then(response => {
             console.log(response.data);
+            // Guarda el valor de 'institution' en el almacenamiento local
+            localStorage.setItem('institution', JSON.stringify(this.institution));
             router.push('/signin');
           })
           .catch(error => {

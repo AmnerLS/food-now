@@ -13,7 +13,6 @@
 import axios from "axios";
 import {mapMutations} from 'vuex';
 
-
 export default {
   data() {
     return {
@@ -33,13 +32,13 @@ export default {
         if (response) {
           console.log(response.data);
           this.setAuthenticated(true);
-          this.setInstitution(response.data.institution); // Suponiendo que la respuesta contiene el valor de 'institution'
 
-          if (this.$store.state.institution) {
-            this.$router.replace({ path: '/menus' }); // Redirige a '/menus' si 'institution' es true
-          } else {
-            this.$router.replace({ path: '/foods' }); // Redirige a '/foods' si 'institution' es false
-          }
+          // Retrieve the value of 'institution' from local storage
+          const institutionItem = localStorage.getItem('institution');
+          // Check if 'institutionItem' is not null before parsing it as JSON
+          const institution = institutionItem ? JSON.parse(institutionItem) : false;
+          this.setInstitution(institution);
+          console.log('Institution:', institution);
         } else {
           console.error('No response from the server');
         }
