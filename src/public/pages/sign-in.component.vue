@@ -43,6 +43,7 @@ export default {
           this.setInstitution(institution);
           this.setUserId(userId);
           console.log('Institution:', institution);
+          this.$router.push('/menus');
         } else {
           console.error('No response from the server');
         }

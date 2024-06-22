@@ -51,6 +51,8 @@ export default {
   <div v-for="menu in favoriteMenus">
     <menu-card-fav :menu="menu"/>
   </div>
+  <pv-paginator :rows="10" :totalRecords="favoriteMenus.length" template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" />
 </template>
 
 <style scoped>

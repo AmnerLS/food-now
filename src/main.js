@@ -49,6 +49,7 @@ import Splitter from "primevue/splitter";
 import SplitterPanel from "primevue/splitterpanel";
 import DataView from "primevue/dataview";
 import Fieldset from "primevue/fieldset";
+import Paginator from "primevue/paginator";
 
 createApp(App)
     .use(store)
@@ -85,4 +86,5 @@ createApp(App)
     .component('pv-splitter-panel',SplitterPanel)
     .component('pv-dataview',DataView)
     .component('pv-fieldset',Fieldset)
+    .component('pv-paginator',Paginator)
     .mount('#app')

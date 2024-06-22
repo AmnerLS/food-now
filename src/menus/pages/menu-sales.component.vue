@@ -28,16 +28,18 @@ export default {
 
 <template>
   <h1> Menus</h1>
-  <div v-for="menu in menus">
-    <menu-card :menu="menu"/>
+  <div class="menu-container" v-for="menu in menus" >
+    <menu-card :menu="menu" />
   </div>
+  <pv-paginator :rows="10" :totalRecords="menus.length" template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" />
 </template>
 
 <style scoped>
-div {
+.menu-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  padding: 10px;
 }
 </style>
