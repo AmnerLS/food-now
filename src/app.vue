@@ -55,6 +55,7 @@ export default {
         </div>
       </template>
       <template #end>
+        <pv-button v-if="!store.state.isInstitution" class="p-button-text text-white" @click="() => router.push('/orders/history')">My Orders</pv-button>
         <pv-button v-if="!store.state.isInstitution" class="p-button-text text-white" icon="pi pi-heart" @click="() => router.push('/menus/favorites')"></pv-button>
         <pv-button v-if="!store.state.isInstitution" class="p-button-text text-white" icon="pi pi-shopping-cart" @click="() => router.push('/orders')"></pv-button>
         <pv-button v-if="!store.state.isAuthenticated" class="p-button-text text-white" @click="() => router.push('/signin')">Sign In</pv-button>

@@ -16,6 +16,7 @@ export default {
       comment: Comment,
       userName: '',
       rating: 0,
+      newRating: 0,
       menuService: null,
       foodService: null,
       userService: null,
@@ -104,10 +105,24 @@ export default {
     },
     promScore() {
       let sum = 0;
-      this.menu.scores.forEach((score)=>{
-        sum += score;
+      this.menu.scores.forEach((s)=>{
+        sum += s.score;
       });
       this.rating = sum / this.menu.scores.length;
+    },
+    addScore(){
+      if(this.userId){
+        const scoreResource = {
+          score: this.newRating
+        }
+        this.menuService.addRating(this.menu._id, scoreResource).then((response)=>{
+          this.menu = response.data;
+          this.promScore();
+          this.notifySuccessfulAction('Score added successfully');
+        });
+      }else{
+        this.notifyErrorAction('You must be logged in to score');
+      }
     }
   },
   created() {
@@ -144,9 +159,7 @@ export default {
     <pv-splitter-panel class="justify-content-center">
       <h2>{{ menu.name }}</h2>
       <div class="star-rating justify-content-center">
-          <span v-for="n in 5" :key="n" class="star">
-          <i class="pi" :class="n <= rating ? 'pi-star-fill' : 'pi-star'"></i>
-          </span>
+        <pv-rating v-model="rating" readonly :cancel="false"/>
       </div>
       <h3>S/ {{ menu.price }}</h3>
       <pv-button label="Add to cart" class="p-button-text text-white" icon="pi pi-shopping-cart" @click="buyMenu"></pv-button>
@@ -155,7 +168,7 @@ export default {
   </pv-splitter>
   <div>
     <h3>Add Score</h3>
-
+    <pv-rating v-model="newRating" @click="addScore"/>
   </div>
   <div>
     <h3>Comments</h3>
@@ -179,12 +192,6 @@ export default {
 .star-rating {
   display: flex;
   align-items: center;
-}
-.star {
-  font-size: 24px;
-  color: black;
-
-  margin-right: 5px;
 }
 .input-text-large {
   width: 600px;

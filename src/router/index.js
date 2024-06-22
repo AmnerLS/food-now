@@ -5,9 +5,10 @@ import FoodManagementComponent from "../menus/pages/food-management.component.vu
 import MenuManagementComponent from "../menus/pages/menu-management.component.vue";
 import SignInComponent  from "../public/pages/sign-in.component.vue";
 import SignUpComponent  from "../public/pages/sign-up.component.vue";
-import MenuInformationComponent from "../menus/components/menu-information.component.vue";
+import MenuInformationComponent from "../menus/pages/menu-information.component.vue";
 import FavoriteMenusComponent from "../menus/pages/favorite-menus.component.vue";
 import OrderManagementComponent from "../menus/pages/order-management.component.vue";
+import OrderHistoryComponent from "../menus/pages/order-history.component.vue";
 
 
 const router = createRouter({
@@ -19,6 +20,7 @@ const router = createRouter({
         {path: '/menuinfo/:id', name: 'menuinfo', component: MenuInformationComponent, meta: {title: 'MenuInformation'}},
         {path: '/menus/favorites', name: 'favorites', component: FavoriteMenusComponent, meta: {title: 'Favorites'}, beforeEnter: requireAuth},
         {path: '/orders', name: 'orders', component: OrderManagementComponent, meta: {title: 'Orders'},beforeEnter: requireAuth},
+        {path: '/orders/history', name: 'order-history', component: OrderHistoryComponent, meta: {title: 'OrderHistory'},beforeEnter: requireAuth},
         { path: "/",        redirect: "/menus"},
         {path: "/signin", name: "signin", component: SignInComponent, meta: {title: 'Sign In'}},
         {path: "/signup", name: "signup", component: SignUpComponent, meta: {title: 'Sign Up'}},
