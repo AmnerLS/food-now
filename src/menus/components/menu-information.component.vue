@@ -70,6 +70,7 @@ export default {
         this.comment = Comment.fromDisplayableComment(this.userName,this.newComment);
         this.menuService.addComment(this.menu._id, this.comment).then((response)=>{
           this.comment = Comment.toDisplayableComment(response.data);
+          console.log(this.comment);
           this.comments.push(this.comment);
         });
         this.isAddingComment = false;

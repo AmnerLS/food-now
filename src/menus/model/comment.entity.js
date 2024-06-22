@@ -13,7 +13,7 @@ export class Comment {
     }
     static toDisplayableComment(comment) {
         return {
-            id: comment.id,
+            id: comment._id,
             comment: comment.comment,
             username: comment.username
         }
