@@ -42,7 +42,7 @@ export default {
       // Guardar la lista actualizada de menús guardados en el almacenamiento local
       localStorage.setItem('savedMenus', JSON.stringify(savedMenus));
 
-      // Aquí puedes agregar el código para manejar el resto de la lógica de compra
+      this.notifySuccessfulAction('Menu added to cart successfully');
     },
     addFavorite(id){
       if(this.userId){

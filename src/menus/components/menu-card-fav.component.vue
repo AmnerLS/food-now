@@ -44,6 +44,18 @@ export default {
         this.notifyErrorAction('You must be logged in to delete to favorite');
       }
     },
+    buyMenu() {
+      // Recuperar los menús guardados del almacenamiento local
+      let savedMenus = JSON.parse(localStorage.getItem('savedMenus')) || [];
+
+      // Agregar el nuevo menú a la lista de menús guardados
+      savedMenus.push(this.menu._id);
+
+      // Guardar la lista actualizada de menús guardados en el almacenamiento local
+      localStorage.setItem('savedMenus', JSON.stringify(savedMenus));
+
+      this.notifySuccessfulAction('Menu added to cart successfully');
+    },
     viewMenu(){
       let menuId = this.menu._id;
       this.$router.push({name: "menuinfo", params: { id: menuId}});
@@ -70,7 +82,7 @@ export default {
       <p class="m-0">{{ description }} </p>
     </template>
     <template #footer>
-      <pv-button label="Add to cart" class="w-full p-button-text text-white buy" icon="pi pi-cart-arrow-down" ></pv-button>
+      <pv-button label="Add to cart" class="w-full p-button-text text-white buy" icon="pi pi-cart-arrow-down" @click="buyMenu"></pv-button>
       <div class="flex gap-4 mt-1">
         <pv-button label="View" class="p-button-text text-white view" @click="viewMenu" icon="pi pi-eye" ></pv-button>
         <pv-button label="Favorite" class="p-button-text text-white favorite" @click="deleteFavorite(menu._id)" icon="pi pi-trash" ></pv-button>

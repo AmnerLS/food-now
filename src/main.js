@@ -48,6 +48,7 @@ import Carousel from "primevue/carousel";
 import Splitter from "primevue/splitter";
 import SplitterPanel from "primevue/splitterpanel";
 import DataView from "primevue/dataview";
+import Fieldset from "primevue/fieldset";
 
 createApp(App)
     .use(store)
@@ -83,4 +84,5 @@ createApp(App)
     .component('pv-splitter',Splitter)
     .component('pv-splitter-panel',SplitterPanel)
     .component('pv-dataview',DataView)
+    .component('pv-fieldset',Fieldset)
     .mount('#app')

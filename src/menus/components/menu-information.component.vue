@@ -89,6 +89,18 @@ export default {
         this.notifyErrorAction('You must be logged in to add to favorite');
       }
     },
+    buyMenu() {
+      // Recuperar los menús guardados del almacenamiento local
+      let savedMenus = JSON.parse(localStorage.getItem('savedMenus')) || [];
+
+      // Agregar el nuevo menú a la lista de menús guardados
+      savedMenus.push(this.menu._id);
+
+      // Guardar la lista actualizada de menús guardados en el almacenamiento local
+      localStorage.setItem('savedMenus', JSON.stringify(savedMenus));
+
+      this.notifySuccessfulAction('Menu added to cart successfully');
+    },
     promScore() {
       let sum = 0;
       this.menu.scores.forEach((score)=>{
@@ -136,7 +148,7 @@ export default {
           </span>
       </div>
       <h3>S/ {{ menu.price }}</h3>
-      <pv-button label="Add to cart" class="p-button-text text-white" icon="pi pi-shopping-cart"></pv-button>
+      <pv-button label="Add to cart" class="p-button-text text-white" icon="pi pi-shopping-cart" @click="buyMenu"></pv-button>
       <pv-button class="p-button-text text-white" icon="pi pi-heart" @click="addFavorite"></pv-button>
     </pv-splitter-panel>
   </pv-splitter>
@@ -154,10 +166,9 @@ export default {
       </div>
     </div>
     <div v-for="comment in comments">
-      <div>
-        <h4>{{comment.username}}</h4>
-        <p>{{comment.comment}}</p>
-      </div>
+      <pv-panel :header="comment.username">
+        <p class="m-0"> {{comment.comment}} </p>
+      </pv-panel>
     </div>
   </div>
 
