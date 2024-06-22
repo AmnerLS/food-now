@@ -21,7 +21,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setAuthenticated', 'setInstitution']),
+    ...mapMutations(['setAuthenticated', 'setInstitution', 'setUserId']),
     async signIn() {
       try {
         const response = await axios.post('http://localhost:3000/signin', {
@@ -34,10 +34,14 @@ export default {
           this.setAuthenticated(true);
 
           // Retrieve the value of 'institution' from local storage
-          const institutionItem = localStorage.getItem('institution');
+          const institutionItem = response.data.institution;
+          const userId = response.data.id;
+          console.log('User ID:', userId);
           // Check if 'institutionItem' is not null before parsing it as JSON
           const institution = institutionItem ? JSON.parse(institutionItem) : false;
+
           this.setInstitution(institution);
+          this.setUserId(userId);
           console.log('Institution:', institution);
         } else {
           console.error('No response from the server');

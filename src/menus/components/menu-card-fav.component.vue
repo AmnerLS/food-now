@@ -1,11 +1,10 @@
 <script>
-
-import {FoodApiService} from "../services/food-api.service.js";
 import {useStore} from "vuex";
+import {FoodApiService} from "../services/food-api.service.js";
 import {UserApiService} from "../services/users.service.js";
 
 export default {
-  name: "menu-card",
+  name: "menu-card-fav",
   props: {menu: Object},
   data() {
     return {
@@ -32,27 +31,17 @@ export default {
       });
       this.description = description;
     },
-    buyMenu() {
-      // Recuperar los menús guardados del almacenamiento local
-      let savedMenus = JSON.parse(localStorage.getItem('savedMenus')) || [];
-
-      // Agregar el nuevo menú a la lista de menús guardados
-      savedMenus.push(this.menu._id);
-
-      // Guardar la lista actualizada de menús guardados en el almacenamiento local
-      localStorage.setItem('savedMenus', JSON.stringify(savedMenus));
-
-      // Aquí puedes agregar el código para manejar el resto de la lógica de compra
-    },
-    addFavorite(id){
+    deleteFavorite(id){
       if(this.userId){
-        this.userService.addFavorite(this.userId, id).then((response)=>{
-          this.notifySuccessfulAction('Menu added to favorite successfully');
+        this.userService.deleteFavorite(this.userId, id).then((response)=>{
+
+          this.notifySuccessfulAction('Menu removed from favorite');
         }).catch((error)=>{
-          this.notifyErrorAction('Menu already added to favorite');
+          this.notifyErrorAction('Error removing menu from favorite');
         });
+
       }else{
-        this.notifyErrorAction('You must be logged in to add to favorite ');
+        this.notifyErrorAction('You must be logged in to delete to favorite');
       }
     },
     viewMenu(){
@@ -81,10 +70,10 @@ export default {
       <p class="m-0">{{ description }} </p>
     </template>
     <template #footer>
-      <pv-button label="Add to cart" class="w-full p-button-text text-white buy" @click="buyMenu" icon="pi pi-cart-arrow-down" ></pv-button>
+      <pv-button label="Add to cart" class="w-full p-button-text text-white buy" icon="pi pi-cart-arrow-down" ></pv-button>
       <div class="flex gap-4 mt-1">
         <pv-button label="View" class="p-button-text text-white view" @click="viewMenu" icon="pi pi-eye" ></pv-button>
-        <pv-button label="Favorite" class="p-button-text text-white favorite" @click="addFavorite(menu._id)" icon="pi pi-heart" ></pv-button>
+        <pv-button label="Favorite" class="p-button-text text-white favorite" @click="deleteFavorite(menu._id)" icon="pi pi-trash" ></pv-button>
       </div>
     </template>
   </pv-card>

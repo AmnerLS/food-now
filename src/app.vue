@@ -12,9 +12,9 @@ export default {
     const items = computed(() => {
       return {
         itemsInstitution: [
-          { label: 'Menu', to: '/menus' },
-          { label: 'Home', to: '/foods' },
-          { label: 'About', to: '/menumanagement' },
+          { label: 'Menu Sales', to: '/menus' },
+          { label: 'Food Management', to: '/foods' },
+          { label: 'Menu Management', to: '/menumanagement' },
         ],
         itemsNonInstitution: [
           { label: 'Menu', to: '/menus' },
@@ -55,11 +55,12 @@ export default {
         </div>
       </template>
       <template #end>
-        <pv-button class="p-button-text text-white" icon="pi pi-heart" ></pv-button>
+        <pv-button v-if="!store.state.isInstitution" class="p-button-text text-white" icon="pi pi-heart" @click="() => router.push('/menus/favorites')"></pv-button>
+        <pv-button v-if="!store.state.isInstitution" class="p-button-text text-white" icon="pi pi-shopping-cart" @click="() => router.push('/orders')"></pv-button>
         <pv-button v-if="!store.state.isAuthenticated" class="p-button-text text-white" @click="() => router.push('/signin')">Sign In</pv-button>
         <pv-button v-if="!store.state.isAuthenticated" class="p-button-text text-white" @click="() => router.push('/signup')">Sign Up</pv-button>
         <pv-button v-if="store.state.isAuthenticated" class="p-button-text text-white" @click="signOut">Sign Out</pv-button>
-        <pv-button v-else class="p-button-text text-white" icon="pi pi-shopping-cart"></pv-button>
+
       </template>
     </pv-toolbar>
   </header>

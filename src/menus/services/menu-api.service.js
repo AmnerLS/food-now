@@ -21,7 +21,7 @@ export class MenuApiService{
     }
 
     addComment(id, commentResource){
-        return http.put(`/menus/${id}/comments`, commentResource);
+        return http.put(`/menus/${id}/add-comment`, commentResource);
     }
 
     addRating(id, ratingResource){

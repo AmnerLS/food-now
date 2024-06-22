@@ -2,6 +2,8 @@
 import {MenuApiService} from "../services/menu-api.service.js";
 import {FoodApiService} from "../services/food-api.service.js";
 import {Comment} from "../model/comment.entity.js";
+import {useStore} from "vuex";
+import {UserApiService} from "../services/users.service.js";
 
 export default {
   name: "menu-information",
@@ -12,11 +14,15 @@ export default {
       foods: [],
       comments: [],
       comment: Comment,
+      userName: '',
       rating: 0,
       menuService: null,
       foodService: null,
+      userService: null,
       isAddingComment: false,
-      newComment: ''
+      newComment: '',
+      store: null,
+      userId: null
     };
   },
   watch: {
@@ -29,6 +35,12 @@ export default {
     }
   },
   methods: {
+    notifySuccessfulAction(message) {
+      this.$toast.add({severity: "success", summary: "Success", detail: message, life: 3000,});
+    },
+    notifyErrorAction(message) {
+      this.$toast.add({severity: "danger", summary: "Error", detail: message, life: 3000,});
+    },
     getFoods(foods) {
       foods.forEach((food) => {
         this.foodService.getById(food).then(response => {
@@ -43,20 +55,39 @@ export default {
         this.comments = this.menu.comments.map((comment) => Comment.toDisplayableComment(comment));
         this.getFoods(this.menu.foods);
         this.promScore();
-        console.log(this.foods);
+        console.log(this.comments);
+      });
+    },
+    getUser(){
+      this.userService.getById(this.userId).then((response)=>{
+        this.userName = response.data.name;
+        console.log(this.userName);
       });
     },
     addComment() {
-      // Aquí puedes agregar el código para añadir el comentario
-      // Por ejemplo, podrías hacer algo como esto:
-      this.comment = Comment.fromDisplayableComment(this.comment);
-      console.log(this.comment);
-      this.menuService.addComment(this.menu._id, this.comment).then((response)=>{
-        this.comment = Comment.toDisplayableComment(response.data);
-        this.comments.push(this.comment);
-      });
-      this.isAddingComment = false;
-      this.newComment = '';
+      if(this.userId){
+        console.log(this.newComment);
+        this.comment = Comment.fromDisplayableComment(this.userName,this.newComment);
+        this.menuService.addComment(this.menu._id, this.comment).then((response)=>{
+          this.comment = Comment.toDisplayableComment(response.data);
+          this.comments.push(this.comment);
+        });
+        this.isAddingComment = false;
+        this.newComment = '';
+        this.notifySuccessfulAction('Comment added successfully');
+      }else{
+        this.notifyErrorAction('You must be logged in to comment');
+      }
+    },
+    addFavorite(){
+      if(this.userId){
+        this.userService.addFavorite(this.userId, this.menu._id).then((response)=>{
+          console.log(response);
+          this.notifySuccessfulAction('Menu added to favorite successfully');
+        });
+      }else{
+        this.notifyErrorAction('You must be logged in to add to favorite');
+      }
     },
     promScore() {
       let sum = 0;
@@ -67,10 +98,13 @@ export default {
     }
   },
   created() {
+    this.store = useStore();
     this.menuService = new MenuApiService();
     this.foodService = new FoodApiService();
+    this.userService = new UserApiService();
+    this.userId = this.store.state.userId;
     this.getMenu();
-
+    this.getUser();
   }
 }
 </script>
@@ -102,8 +136,8 @@ export default {
           </span>
       </div>
       <h3>S/ {{ menu.price }}</h3>
-      <pv-button label="Buy" class="p-button-text text-white" icon="pi pi-shopping-cart"></pv-button>
-      <pv-button class="p-button-text text-white" icon="pi pi-heart"></pv-button>
+      <pv-button label="Add to cart" class="p-button-text text-white" icon="pi pi-shopping-cart"></pv-button>
+      <pv-button class="p-button-text text-white" icon="pi pi-heart" @click="addFavorite"></pv-button>
     </pv-splitter-panel>
   </pv-splitter>
   <div>
@@ -115,14 +149,14 @@ export default {
     <div>
       <pv-button label="Add Comment" class="p-button-text text-white" icon="pi pi-comment" v-if="!isAddingComment" @click="isAddingComment = true"></pv-button>
       <div v-if="isAddingComment" >
-        <pv-input-text v-model="comment.content" placeholder="Enter your comment" class="input-text-large"></pv-input-text>
+        <pv-input-text v-model="newComment" placeholder="Enter your comment" class="input-text-large"></pv-input-text>
         <pv-button label="Submit Comment" @click="addComment" class="button-below"></pv-button>
       </div>
     </div>
     <div v-for="comment in comments">
       <div>
-        <h4>{{comment.author}}</h4>
-        <p>{{comment.content}}</p>
+        <h4>{{comment.username}}</h4>
+        <p>{{comment.comment}}</p>
       </div>
     </div>
   </div>

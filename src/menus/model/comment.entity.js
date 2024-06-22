@@ -4,18 +4,18 @@ export class Comment {
         this.comment = comment;
         this.username = username;
     }
-    static fromDisplayableComment(displayableComment){
+    static fromDisplayableComment(userName,displayableComment){
         return new Comment(
             displayableComment.id,
-            displayableComment.content,
-            'anonymous'
+            displayableComment,
+            userName
         );
     }
     static toDisplayableComment(comment) {
         return {
             id: comment.id,
-            content: comment.comment,
-            author: comment.username
+            comment: comment.comment,
+            username: comment.username
         }
     }
 }
